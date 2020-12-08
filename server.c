@@ -19,7 +19,7 @@
 
 #define BACKLOG    5
 #define SERV_PORT  6666
-#define SERV_IP_ADDR "192.168.1.123"
+#define SERV_IP_ADDR "192.168.247.131"
 #define QUIT "quit"
 #define BUFSZIES 128
 
@@ -31,9 +31,7 @@ struct my_t{
 struct my_t  info;
 
 
-void cli_info(struct sockaddr_in cin){
-
-}
+void cli_info(struct sockaddr_in cin);
 
 
 
@@ -144,6 +142,15 @@ void cli_data_handle(void * arg){
 	close(pinfo.newfd);
 }
 
+void cli_info(struct sockaddr_in cin){
+     char ip[20]={};
+  const char * np = inet_ntop(AF_INET,(void*)&cin.sin_addr.s_addr,ip,20);
+  if(np == NULL) {
+    perror("inet_ntop");
+    exit(6);
+  }
+  fprintf(stderr, "客户端（%s:%d）连接成功\n",ip,ntohs(cin.sin_port));
+}
 
 
 
